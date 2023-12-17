@@ -1,28 +1,48 @@
-## RandomPicker Application
+# Random Picker
 
-### Project Overview
-RandomPicker is a random picker application designed to assist users in randomly selecting a winner from a group of names or numbers. Whether for conducting a lottery, making decisions, or any other scenario that requires random selection, RandomPicker is the ideal choice.
+## Overview
 
-### Motivation
-The motivation behind RandomPicker is to provide a simple and practical tool to address various situations that require random selection. Whether adding fun to entertainment activities or seeking assistance in practical decision-making, RandomPicker caters to your needs.
+Random Picker is a graphical user interface (GUI) application built with Tkinter, a Python library for creating desktop applications. The application allows users to manage a list of names, pick names randomly, and perform various operations on the list. It features a modern-themed GUI, keyboard shortcuts, history tracking, and options to save and load configurations.
 
-### Key Features
-- **Add Names or Numbers:** Enter names, numbers, or ranges in the "Name" or "Range" fields, then click the "Add Name" or "Add Range" button.
-- **Spin the Wheel:** Click the "Spin Wheel!" button to randomly choose a winner.
-- **Clear Names:** Click the "Clear Names" button to remove all added names or numbers.
-- **Copy Winner:** Click the "Copy Winner" button to copy the winner's name to the clipboard.
-- **Save and Load:** Use the "Save Names" and "Load Names" buttons to save and load name lists.
-- **History:** View the history of winning records by clicking the "History" button.
+## Features
 
-### Quick Start Guide
+1. **Adding Names and Ranges:**
+   - Users can add individual names or ranges of numbers to the list.
 
-- **Add Names or Numbers:** Enter a name (e.g., John) in the "Name" field and click the "Add Name" button.
-- **Add Range:** Enter a range (e.g., 1 to 10) in the "Range" field and click the "Add Range" button.
-- **Spin the Wheel:** Click the "Spin Wheel!" button, and the application will randomly select a name or number as the winner.
-- **Clear Names:** Click the "Clear Names" button to remove all added names or numbers.
-- **Copy Winner:** Click the "Copy Winner" button to copy the winner's name to the clipboard.
-- **Save Names:** Click the "Save Names" button to choose a directory and save names as a text file.
-- **Load Names:** Click the "Load Names" button to select a previously saved name list file and load it.
-- **View History:** Click the "History" button to see previous winning records.
-- **Switch Interface Language:** In the "Settings" menu, choose English or Chinese as the application's interface language.
-- **Customize Button Style:** In the "Settings" menu, select "Button Style..." and follow the prompts to change button styles.
+2. **Random Name Picker:**
+   - Clicking the "Pick Randomly" button selects a name randomly from the list.
+
+3. **Automatic Selection:**
+   - Users can initiate automatic selection, and the application will continuously pick names at regular intervals until stopped.
+
+4. **Clipboard Interaction:**
+   - The selected name can be copied to the clipboard for easy sharing.
+
+5. **History Tracking:**
+   - The application maintains a history of picked names, allowing users to review their selections.
+
+6. **Options Management:**
+   - Users can save and load configurations, including the list of names.
+
+7. **Dark Theme:**
+   - The application features a dark-themed user interface for a modern look.
+
+8. **Tooltips:**
+   - Tooltips provide additional information about various UI elements.
+
+9. **Feedback and Help:**
+   - Users can send feedback through a link to the GitHub issues page.
+
+10. **Shortcuts Display:**
+    - A dedicated button displays keyboard shortcuts for quick reference.
+
+## Usage
+
+- Launch the application and interact with the user interface.
+- Add names or ranges, pick names randomly, and explore various features.
+- Customize settings, save options, and manage history.
+- Refer to the keyboard shortcuts for quick actions.
+
+## Contributing
+
+If you encounter issues or have suggestions for improvements, please [open an issue]([https://github.com/your-username/RandomPicker/issues](https://github.com/fatherxtreme123/RandomPicker/issues)).
