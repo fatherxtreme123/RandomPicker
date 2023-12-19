@@ -1,48 +1,53 @@
-# Random Picker
+# RandomPicker
 
 ## Overview
-
-Random Picker is a graphical user interface (GUI) application built with Tkinter, a Python library for creating desktop applications. The application allows users to manage a list of names, pick names randomly, and perform various operations on the list. It features a modern-themed GUI, keyboard shortcuts, history tracking, and options to save and load configurations.
+RandomPicker is a Python application built using the Tkinter library for creating and managing lists of names or numbers. It provides features such as adding individual names, adding a range of numbers, picking a random name from the list, and more.
 
 ## Features
-
-1. **Adding Names and Ranges:**
-   - Users can add individual names or ranges of numbers to the list.
-
-2. **Random Name Picker:**
-   - Clicking the "Pick Randomly" button selects a name randomly from the list.
-
-3. **Automatic Selection:**
-   - Users can initiate automatic selection, and the application will continuously pick names at regular intervals until stopped.
-
-4. **Clipboard Interaction:**
-   - The selected name can be copied to the clipboard for easy sharing.
-
-5. **History Tracking:**
-   - The application maintains a history of picked names, allowing users to review their selections.
-
-6. **Options Management:**
-   - Users can save and load configurations, including the list of names.
-
-7. **Dark Theme:**
-   - The application features a dark-themed user interface for a modern look.
-
-8. **Tooltips:**
-   - Tooltips provide additional information about various UI elements.
-
-9. **Feedback and Help:**
-   - Users can send feedback through a link to the GitHub issues page.
-
-10. **Shortcuts Display:**
-    - A dedicated button displays keyboard shortcuts for quick reference.
+1. **Add Name**: Enter a name to add to the list.
+2. **Add Range**: Add a range of numbers to the list.
+3. **Delete Name**: Double-click on a name to delete it from the list.
+4. **Copy Selected**: Copy the selected name to the clipboard.
+5. **Automatic Selection**: Automatically pick names from the list.
+6. **Remove on Pick**: Option to remove the picked name from the list.
+7. **History**: View a history of previously picked names.
+8. **Save/Load Options**: Save the current list of names to a file or load names from a file.
+9. **Send Feedback**: Open the GitHub issues page to provide feedback.
+10. **Show Shortcuts**: View keyboard shortcuts for quick actions.
 
 ## Usage
+### Adding Names
+- Use the "Add Name" button or press `Control-n` to add a single name.
+- Use the "Add Range" button or press `Control-r` to add a range of numbers.
 
-- Launch the application and interact with the user interface.
-- Add names or ranges, pick names randomly, and explore various features.
-- Customize settings, save options, and manage history.
-- Refer to the keyboard shortcuts for quick actions.
+### Deleting Names
+- Double-click on a name in the list to delete it.
+- Use the "Delete Selected" button or press `Control-d` to delete the selected name.
+
+### Picking Randomly
+- Click the "Pick Randomly" button or press `Control-p` to randomly select a name.
+
+### Automatic Selection
+- Click the "Automatic Selection" button or press `Control-a` to start automatic selection.
+- Click the "⮞" button or press `Control-m` to specify the time for automatic selection.
+
+### Copying and Editing
+- Use the "Copy Selected" button to copy the selected name to the clipboard.
+- Use the "Delete and Copy" button or press `Control-d` to delete and copy the selected name.
+
+### History
+- Click the "History" button to view a history of previously picked names.
+- Use the "Clear History" button to clear the history.
+- Use the "Copy All" button or press `Control-q` to copy all history to the clipboard.
+- Use the "Export History" button or press `Control-e` to export history to a file.
+
+### Options
+- Use the "Save Options" button or press `Control-s` to save the current list of names to a file.
+- Use the "Load Options" button or press `Control-l` to load names from a file.
+
+### Feedback and Shortcuts
+- Use the "Send Feedback" button or press `Control-f` to provide feedback on GitHub.
+- Click the "Show Shortcuts" button to view keyboard shortcuts.
 
 ## Contributing
-
-If you encounter issues or have suggestions for improvements, please [open an issue]([https://github.com/your-username/RandomPicker/issues](https://github.com/fatherxtreme123/RandomPicker/issues)).
+Feel free to contribute to the development of RandomPicker by opening issues or submitting pull requests on the [GitHub repository](https://github.com/fatherxtreme123/RandomPicker).
