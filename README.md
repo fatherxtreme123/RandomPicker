@@ -1,53 +1,74 @@
 # RandomPicker
 
-## Overview
-RandomPicker is a Python application built using the Tkinter library for creating and managing lists of names or numbers. It provides features such as adding individual names, adding a range of numbers, picking a random name from the list, and more.
+## Introduction
+RandomPicker is a Python application designed for randomly selecting names or numbers from a list. It provides a user-friendly interface to add names, ranges, and perform random selections. The program supports various features such as automatic selection, history tracking, and options for saving and loading configurations.
 
 ## Features
-1. **Add Name**: Enter a name to add to the list.
-2. **Add Range**: Add a range of numbers to the list.
-3. **Delete Name**: Double-click on a name to delete it from the list.
-4. **Copy Selected**: Copy the selected name to the clipboard.
-5. **Automatic Selection**: Automatically pick names from the list.
-6. **Remove on Pick**: Option to remove the picked name from the list.
-7. **History**: View a history of previously picked names.
-8. **Save/Load Options**: Save the current list of names to a file or load names from a file.
-9. **Send Feedback**: Open the GitHub issues page to provide feedback.
-10. **Show Shortcuts**: View keyboard shortcuts for quick actions.
 
-## Usage
 ### Adding Names
-- Use the "Add Name" button or press `Control-n` to add a single name.
-- Use the "Add Range" button or press `Control-r` to add a range of numbers.
+- Enter names in the input box and click "Add Name" to add them to the list.
+- Double-click on a name to delete it.
+- Right-click on a name to edit it.
+- Ctrl + Click on a name to duplicate it with a custom count.
 
-### Deleting Names
-- Double-click on a name in the list to delete it.
-- Use the "Delete Selected" button or press `Control-d` to delete the selected name.
+### Adding Ranges
+- Enter start and end values in the input boxes and click "Add Range" to add a range of numbers to the list.
 
-### Picking Randomly
-- Click the "Pick Randomly" button or press `Control-p` to randomly select a name.
+### Random Selection
+- Click "Pick Randomly" to randomly select a name from the list.
+- Enable "Remove on Pick" to remove the selected name from the list.
 
 ### Automatic Selection
-- Click the "Automatic Selection" button or press `Control-a` to start automatic selection.
-- Click the "⮞" button or press `Control-m` to specify the time for automatic selection.
+- Click "Automatic Selection" to start automatic name selection.
+- Click the symbol "⮞" to enter the number of seconds for automatic selection.
 
-### Copying and Editing
-- Use the "Copy Selected" button to copy the selected name to the clipboard.
-- Use the "Delete and Copy" button or press `Control-d` to delete and copy the selected name.
+### Additional Actions
+- "Delete and Copy": Deletes and copies the selected name.
+- "Delete Selected": Deletes the selected name.
+- "Clear All": Clears all names in the list.
 
 ### History
-- Click the "History" button to view a history of previously picked names.
-- Use the "Clear History" button to clear the history.
-- Use the "Copy All" button or press `Control-q` to copy all history to the clipboard.
-- Use the "Export History" button or press `Control-e` to export history to a file.
+- Click "History" to view the history of previously selected names.
+- Options to clear history, copy all, and export history.
 
-### Options
-- Use the "Save Options" button or press `Control-s` to save the current list of names to a file.
-- Use the "Load Options" button or press `Control-l` to load names from a file.
+### Save and Load
+- Save and load options to/from a file.
 
-### Feedback and Shortcuts
-- Use the "Send Feedback" button or press `Control-f` to provide feedback on GitHub.
-- Click the "Show Shortcuts" button to view keyboard shortcuts.
+### Shortcuts
+- Display keyboard shortcuts using "Show Shortcuts."
 
-## Contributing
-Feel free to contribute to the development of RandomPicker by opening issues or submitting pull requests on the [GitHub repository](https://github.com/fatherxtreme123/RandomPicker).
+### Sending Feedback
+- Click "Send Feedback" to open the GitHub issues page and provide feedback.
+
+## Usage
+
+1. **Adding Names:**
+   - Enter a name in the input box.
+   - Click "Add Name."
+
+2. **Adding Ranges:**
+   - Enter start and end values.
+   - Click "Add Range."
+
+3. **Random Selection:**
+   - Click "Pick Randomly."
+
+4. **Automatic Selection:**
+   - Click "Automatic Selection" to start.
+   - Click symbol "⮞" to set a time.
+
+5. **History:**
+   - Click "History" to view previous selections.
+
+6. **Save and Load Options:**
+   - Click "Save Options" and "Load Options."
+
+7. **Shortcuts:**
+   - Click "Show Shortcuts" to view keyboard shortcuts.
+
+8. **Sending Feedback:**
+   - Click "Send Feedback" to provide feedback on GitHub.
+
+## Notes
+- Ensure valid inputs for ranges and names.
+- Follow on-screen tooltips for guidance.
