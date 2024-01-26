@@ -79,7 +79,7 @@ class App(TKMT.ThemedTKinterFrame):
             self.end_input.config(width=20)
 
             self.name_list = tk.Listbox(self.right_frame, font=("Arial", 12), width=80, height=30)
-            createToolTip(self.name_list, "Double-click a name to delete it\nCtrl + Click a name to duplicate it with a custom count\nRight-click a name to edit it\nThis shows the names you have added")
+            createToolTip(self.name_list, "Double-click a name to delete it\nCtrl + Click a name to duplicate it with a custom count\nRight-click a name to edit it\nCtrl + Right-Click to shuffle names\nThis shows the names you have added")
             self.name_list.grid(row=2, column=0, sticky="nsew", pady=10)
             self.name_list.bind("<Double-Button-1>", self.delete_name)
             self.name_list.bind("<Control-Button-1>", self.add_name_with_copy_count)
@@ -113,25 +113,29 @@ class App(TKMT.ThemedTKinterFrame):
             createToolTip(self.clear_all_button, "Click to clear all names in the list")
             self.clear_all_button.grid(row=3, column=0, columnspan=2, sticky="ew", pady=10, padx=5)
 
+            self.remove_duplicates_button = ttk.Button(self.left_frame, text="Remove Duplicates", command=self.remove_duplicates)
+            createToolTip(self.remove_duplicates_button, "Click to remove all duplicate names in the list, keeping only one instance")
+            self.remove_duplicates_button.grid(row=4, column=0, columnspan=2, sticky="ew", pady=10, padx=5)
+
             self.history_button = ttk.Button(self.left_frame, text="History", command=self.show_history)
             createToolTip(self.history_button, "Click to view the history of the names picked")
-            self.history_button.grid(row=4, column=0, columnspan=2, sticky="ew", pady=10, padx=5)
+            self.history_button.grid(row=5, column=0, columnspan=2, sticky="ew", pady=10, padx=5)
 
             self.save_options_button = ttk.Button(self.left_frame, text="Save Options", command=self.save_options)
             createToolTip(self.save_options_button, "Click to save options to a file")
-            self.save_options_button.grid(row=5, column=0, columnspan=2, sticky="ew", pady=10, padx=5)
+            self.save_options_button.grid(row=6, column=0, columnspan=2, sticky="ew", pady=10, padx=5)
 
             self.load_options_button = ttk.Button(self.left_frame, text="Load Options", command=self.load_options)
             createToolTip(self.load_options_button, "Click to load options from a file")
-            self.load_options_button.grid(row=6, column=0, columnspan=2, sticky="ew", pady=10, padx=5)
+            self.load_options_button.grid(row=7, column=0, columnspan=2, sticky="ew", pady=10, padx=5)
 
             self.send_feedback_button = ttk.Button(self.left_frame, text="Send Feedback", command=self.send_feedback)
             createToolTip(self.send_feedback_button, "Click to open the GitHub issues page and send feedback")
-            self.send_feedback_button.grid(row=7, column=0, columnspan=2, sticky="ew", pady=10, padx=5)  
+            self.send_feedback_button.grid(row=8, column=0, columnspan=2, sticky="ew", pady=10, padx=5)  
 
             self.shortcuts_button = ttk.Button(self.left_frame, text="Show Shortcuts", command=self.show_shortcuts)
             createToolTip(self.shortcuts_button, "Click to view keyboard shortcuts")
-            self.shortcuts_button.grid(row=8, column=0, columnspan=2, sticky="ew", pady=10, padx=5)           
+            self.shortcuts_button.grid(row=9, column=0, columnspan=2, sticky="ew", pady=10, padx=5)           
 
             self.history_file = "history.json"
             self.history_list = []
@@ -144,7 +148,7 @@ class App(TKMT.ThemedTKinterFrame):
             createToolTip(self.remove_on_pick_checkbox, "Check to remove the picked name from the list")
             self.remove_on_pick_checkbox.grid(row=3, column=0, sticky="w", pady=10)
 
-            self.result_label = ttk.Label(self.right_frame, text="The name picked is", font=("Arial", 12))
+            self.result_label = ttk.Label(self.right_frame, text="The name picked is", font=("Arial", 12), anchor="w", width=30)
             createToolTip(self.result_label, "This displays the randomly picked name")
             self.result_label.grid(row=4, column=0, sticky="ew", pady=10)
 
@@ -153,6 +157,7 @@ class App(TKMT.ThemedTKinterFrame):
             self.copy_selected_button.grid(row=4, column=0, sticky="e", pady=10, padx=(0, 10))
 
             self.name_list.bind("<Button-3>", self.edit_name)
+            self.name_list.bind("<Control-Button-3>", self.shuffle_names)
 
             self.master.bind("<Control-n>", lambda event: self.add_name())
             self.master.bind("<Control-r>", lambda event: self.add_range())
@@ -213,6 +218,27 @@ class App(TKMT.ThemedTKinterFrame):
         except Exception as e:
             messagebox.showerror("Error", f"An error occurred: {e}")
 
+    def remove_duplicates(self):
+        try:
+            names = self.name_list.get(0, "end")
+            if not names:
+                messagebox.showinfo("Info", "The list is already empty.")
+                return
+            seen = set()
+            unique_names = []
+            for name in names:
+                if name not in seen:
+                    seen.add(name)
+                    unique_names.append(name)
+            if len(names) == len(unique_names):
+                messagebox.showinfo("Info", "The list does not contain any duplicate names.")
+                return
+            self.name_list.delete(0, "end")
+            for name in unique_names:
+                self.name_list.insert("end", name)
+        except Exception as e:
+            messagebox.showerror("Error", f"An error occurred: {e}")
+
     def copy_selected_name(self):
         try:
             result_text = self.result_label.cget("text")
@@ -269,10 +295,10 @@ class App(TKMT.ThemedTKinterFrame):
             names = self.name_list.get(0, "end")
             if names:
                 self.auto_selecting = True
-                self.dim_frame = ttk.Frame(self.left_frame, width=200, height=700)
+                self.dim_frame = ttk.Frame(self.master, width=self.master.winfo_width(), height=self.master.winfo_height())
                 self.dim_frame.place(x=0, y=0)
                 self.dim_frame.bind("<Button-1>", self.stop_auto_select)
-                self.dim_label = ttk.Label(self.dim_frame, text="Click\nanywhere\nto\nstop", foreground="red", font=font.Font(size=20))
+                self.dim_label = ttk.Label(self.dim_frame, text="Click anywhere to stop", foreground="red", font=font.Font(size=20))
                 self.dim_label.place(relx=0.5, rely=0.5, anchor="center")
                 self.auto_select_thread = threading.Thread(target=self.auto_select_loop)
                 self.auto_select_thread.start()
@@ -315,7 +341,7 @@ class App(TKMT.ThemedTKinterFrame):
             names = self.name_list.get(0, "end")
             if names:
                 self.auto_selecting = True
-                self.dim_frame = ttk.Frame(self.left_frame, width=200, height=700)
+                self.dim_frame = ttk.Frame(self.master, width=self.master.winfo_width(), height=self.master.winfo_height())
                 self.dim_frame.place(x=0, y=0)
                 self.dim_frame.bind("<Button-1>", self.stop_auto_select)
                 self.dim_label = ttk.Label(self.dim_frame, text="", foreground="red", font=font.Font(size=20))
@@ -352,7 +378,7 @@ class App(TKMT.ThemedTKinterFrame):
 
     def update_time_label(self, start_time):
         remaining_time = int(self.time_input - (time.time() - start_time))
-        self.dim_label.config(text=f"Click\nanywhere\nto\nstop\n{remaining_time}")
+        self.dim_label.config(text=f"Click anywhere to stop\n{remaining_time}", justify='center')
 
     def show_history(self):
         try:
@@ -512,6 +538,20 @@ class App(TKMT.ThemedTKinterFrame):
                 pyperclip.copy(selected_name)
                 messagebox.showinfo("Delete and Copy", f"The selected name '{selected_name}' has been copied to the clipboard.")
         except Exception as e:
+            messagebox.showerror("Error", f"An error occurred: {e}")
+
+    def shuffle_names(self, event):
+        try:
+            names = self.name_list.get(0, "end")
+            if names:
+                names = list(names) 
+                random.shuffle(names)
+                self.name_list.delete(0, "end")
+                for name in names:
+                    self.name_list.insert("end", name)
+            else:
+                messagebox.showwarning("No Names", "There are no names to shuffle")
+        except Exception as e: 
             messagebox.showerror("Error", f"An error occurred: {e}")
 
     def send_feedback(self):
