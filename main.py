@@ -400,11 +400,15 @@ class App(ctk.CTk):
             self.history_frame.grid(row=0, column=1, padx=10, pady=5, sticky="nsew")
             self.right_frame.grid_remove()
             self.history_button.configure(text="Back to Main Page", command=self.back_to_main_page)
-            self.history_display = ctk.CTkTextbox(self.history_frame, state="disabled", width=550, height=420) 
+            
+            # Create a CTkListbox for history display
+            self.history_display = CTkListbox(self.history_frame, font=("Arial", 12), width=550, height=420)
             createToolTip(self.history_display, "This displays the history of names you have previously selected.")
-            self.history_display.configure(state="normal")
-            self.history_display.insert('end', '\n'.join(self.history_list))
-            self.history_display.configure(state="disabled")
+            
+            # Insert history items into the CTkListbox
+            for item in self.history_list:
+                self.history_display.insert(tk.END, item)
+            
             self.history_display.grid(row=2, column=0, sticky="nsew")
 
             self.clear_button = ctk.CTkButton(self.history_frame, text="Clear History", command=self.clear_history)
@@ -449,7 +453,24 @@ class App(ctk.CTk):
 
     def save_history(self, name):
         try:
+            # Add the new name to the history list
             self.history_list.append(name)
+            
+            # Check if the history list exceeds the maximum limit of 100 names
+            if len(self.history_list) > 100:
+                # Remove the oldest name (the first item in the list)
+                self.history_list.pop(0)
+            
+            # Update the history display if it's currently visible
+            if hasattr(self, 'history_display') and self.history_display.winfo_exists():
+                # Insert the new name at the end of the list
+                self.history_display.insert(tk.END, name)
+                # Check if the listbox exceeds the maximum limit
+                if self.history_display.size() > 100:
+                    # Delete the oldest name from the listbox
+                    self.history_display.delete(0)
+            
+            # Save the updated history list to the file
             with open(self.history_file, 'w') as f:
                 json.dump(self.history_list, f)
         except Exception as e:
@@ -459,10 +480,8 @@ class App(ctk.CTk):
         try:
             if self.history_list:
                 self.history_list = []
-                if self.history_display is not None:
-                    self.history_display.configure(state="normal")
-                    self.history_display.delete('1.0', 'end')
-                    self.history_display.configure(state="disabled")
+                if hasattr(self, 'history_display') and self.history_display.winfo_exists():
+                    self.history_display.delete(0, tk.END)  # Clear the CTkListbox
 
                 with open(self.history_file, 'w') as f:
                     json.dump(self.history_list, f)
