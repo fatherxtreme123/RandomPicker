@@ -6,7 +6,6 @@ from CTkListbox import *
 import random
 import threading
 import time
-from tkinter import font
 import json
 import pyperclip
 import webbrowser
@@ -84,10 +83,10 @@ class App(ctk.CTk):
             self.end_input.grid(row=2, column=0, sticky="e", padx=5, pady=10)
             createToolTip(self.end_input, "Enter the end value of the range")
 
-            self.start_input.configure(width=180)
-            self.end_input.configure(width=180)
+            self.start_input.configure(width=139)
+            self.end_input.configure(width=139)
 
-            self.name_list = CTkListbox(self.right_frame, font=("Arial", 12), width=700, height=570)
+            self.name_list = CTkListbox(self.right_frame, font=("Arial", 12), width=560, height=440)
             self.name_list.grid(row=2, column=0, sticky="nsew", pady=10)
 
             self.pick_button = ctk.CTkButton(self.right_frame, text="Pick Randomly", command=self.pick_randomly)
@@ -145,13 +144,13 @@ class App(ctk.CTk):
             self.remove_on_pick_var = tk.BooleanVar()
             self.remove_on_pick_var.set(False)
 
-            self.remove_on_pick_checkbox = ctk.CTkCheckBox(self.right_frame, text="Remove on Pick", variable=self.remove_on_pick_var)
-            self.remove_on_pick_checkbox.grid(row=3, column=0, sticky="w", pady=10)
-            createToolTip(self.remove_on_pick_checkbox, "Check to remove the picked name from the list")
-
-            self.result_label = ctk.CTkLabel(self.right_frame, text="The name picked is", font=("Arial", 12), anchor="w", width=30)
-            self.result_label.grid(row=4, column=0, sticky="ew", pady=10)
+            self.result_label = ctk.CTkLabel(self.right_frame, text="", font=("Arial", 30), anchor="center", width=30)
+            self.result_label.grid(row=5, column=0, sticky="ew", pady=10)
             createToolTip(self.result_label, "This displays the randomly picked name")
+
+            self.remove_on_pick_checkbox = ctk.CTkCheckBox(self.right_frame, text="Remove on Pick", variable=self.remove_on_pick_var)
+            self.remove_on_pick_checkbox.grid(row=4, column=0, sticky="w", pady=10)
+            createToolTip(self.remove_on_pick_checkbox, "Check to remove the picked name from the list")
 
             self.copy_selected_button = ctk.CTkButton(self.right_frame, text="Copy Selected", command=self.copy_selected_name)
             self.copy_selected_button.grid(row=4, column=0, sticky="e", pady=10, padx=(0, 10))
@@ -268,10 +267,10 @@ class App(ctk.CTk):
     def copy_selected_name(self):
         try:
             result_text = self.result_label.cget("text")
-            if result_text == "The name picked is":
+            if result_text == "":
                 CTkMessagebox(title="No Selected Name", message="There is no selected name to copy.")
                 return
-            selected_name = result_text[len("The name picked is "):]
+            selected_name = result_text[len(" "):]
             pyperclip.copy(selected_name)
             CTkMessagebox(title="Copy Selected", message=f"The selected name '{selected_name}' has been copied to the clipboard.")
         except Exception as e:
@@ -282,7 +281,7 @@ class App(ctk.CTk):
             names = self.get_all_listbox_items(self.name_list)
             if names:
                 name = random.choice(names)
-                self.result_label.configure(text=f"The name picked is {name}")
+                self.result_label.configure(text=f" {name}")
                 if self.remove_on_pick_var.get():
                     self.name_list.delete(self.get_all_listbox_items(self.name_list).index(name))
                 self.save_history(name)
@@ -327,7 +326,7 @@ class App(ctk.CTk):
 
     def update_result_label(self, name):
         try:
-            self.result_label.configure(text=f"The name picked is {name}")
+            self.result_label.configure(text=f"{name}")
         except Exception as e:
             CTkMessagebox(title="Error", message=f"An error occurred: {e}")
 
@@ -401,13 +400,7 @@ class App(ctk.CTk):
             self.right_frame.grid_remove()
             self.history_button.configure(text="Back to Main Page", command=self.back_to_main_page)
             
-            # Create a CTkListbox for history display
             self.history_display = CTkListbox(self.history_frame, font=("Arial", 12), width=550, height=420)
-            createToolTip(self.history_display, "This displays the history of names you have previously selected.")
-            
-            # Insert history items into the CTkListbox
-            for item in self.history_list:
-                self.history_display.insert(tk.END, item)
             
             self.history_display.grid(row=2, column=0, sticky="nsew")
 
@@ -422,8 +415,30 @@ class App(ctk.CTk):
             self.export_button = ctk.CTkButton(self.history_frame, text="Export History", command=self.export_history)
             createToolTip(self.export_button, "Click to export history.")
             self.export_button.grid(row=5, column=0, pady=10, sticky="ew")
+
+            threading.Thread(target=self.load_history_in_background, daemon=True).start()
         except Exception as e:
             CTkMessagebox(title="Error", message=f"An error occurred: {e}")
+
+    def load_history_in_background(self):
+        try:
+            with open(self.history_file, 'r') as f:
+                history_list = json.load(f)
+            
+            self.after(0, self.update_history_display, history_list)
+        except FileNotFoundError:
+            with open(self.history_file, 'w') as f:
+                json.dump([], f)
+        except Exception as e:
+            CTkMessagebox(title="Error", message=f"An error occurred while loading history: {e}")
+
+    def update_history_display(self, history_list):
+        try:
+            self.history_display.delete(0, tk.END)
+            for item in history_list:
+                self.history_display.insert(tk.END, item)
+        except Exception as e:
+            CTkMessagebox(title="Error", message=f"An error occurred while updating history display: {e}")
 
     def back_to_main_page(self):
         try:
@@ -453,24 +468,16 @@ class App(ctk.CTk):
 
     def save_history(self, name):
         try:
-            # Add the new name to the history list
             self.history_list.append(name)
             
-            # Check if the history list exceeds the maximum limit of 100 names
             if len(self.history_list) > 100:
-                # Remove the oldest name (the first item in the list)
                 self.history_list.pop(0)
             
-            # Update the history display if it's currently visible
             if hasattr(self, 'history_display') and self.history_display.winfo_exists():
-                # Insert the new name at the end of the list
                 self.history_display.insert(tk.END, name)
-                # Check if the listbox exceeds the maximum limit
                 if self.history_display.size() > 100:
-                    # Delete the oldest name from the listbox
                     self.history_display.delete(0)
             
-            # Save the updated history list to the file
             with open(self.history_file, 'w') as f:
                 json.dump(self.history_list, f)
         except Exception as e:
@@ -481,7 +488,7 @@ class App(ctk.CTk):
             if self.history_list:
                 self.history_list = []
                 if hasattr(self, 'history_display') and self.history_display.winfo_exists():
-                    self.history_display.delete(0, tk.END)  # Clear the CTkListbox
+                    self.history_display.delete(0, tk.END)
 
                 with open(self.history_file, 'w') as f:
                     json.dump(self.history_list, f)
